@@ -1,4 +1,14 @@
+.DS_Store
+
+## Jekyll default stuff
 _site
 .sass-cache
 .jekyll-metadata
+
+## Ignore node stuff
 node_modules
+
+## Ignore files built by gulp
+css
+js
+assets
