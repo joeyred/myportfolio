@@ -26,11 +26,11 @@ var PATH = {
   },
   // Files ready for Jekyll build
   dist: {
-    imgs: './assets/imgs',
-    fonts: './assets/fonts',
-    icons: './assets/icons',
-    css: './css',
-    js: './js'
+    imgs: '_site/assets/imgs',
+    fonts: '_site/assets/fonts',
+    icons: '_site/assets/icons',
+    css: '_site/assets/css',
+    js: '_site/assets/js'
   }
 }
 
@@ -117,20 +117,22 @@ gulp.task('browserSyncReload', function(done) {
   browserSync.reload();
   done();
 });
+
 // SCSS
-gulp.task('scssReload', function(cb) {
-  sequence(
-    'scss',
-    'jekyll',
-    cb
-  );
-});
+// gulp.task('scssReload', function(cb) {
+//   sequence(
+//     'scss',
+//     'jekyll',
+//     cb
+//   );
+// });
+// TODO: Get rid of this reload task at some point.
 
 // JavaScript
 gulp.task('scriptsReload', function(cb) {
   sequence(
     'scripts',
-    'jekyll',
+    // 'jekyll',
     'browserSyncReload',
     cb
   );
@@ -140,7 +142,7 @@ gulp.task('scriptsReload', function(cb) {
 gulp.task('imageReload', function(cb) {
   sequence(
     'images',
-    'jekyll',
+    // 'jekyll',
     'browserSyncReload',
     cb
   );
@@ -160,7 +162,7 @@ gulp.task('jekyllReload', function(cb) {
  */
 gulp.task('watch', function() {
   // Watch SCSS
-  gulp.watch(PATH.src.scss + '/**/*.scss', ['scss']);
+  gulp.watch(PATH.src.scss[0] + '/**/*.scss', ['scss']);
   // Watch JS
   gulp.watch(PATH.src.js + '/**/*.js', ['scriptsReload']);
   // Watch HTML

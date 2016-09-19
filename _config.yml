@@ -20,3 +20,4 @@ github_username:  joeyred
 markdown: kramdown
 permalink: /:title
 exclude: [node_modules, gulpfile.js, package.json, bower_components, bower.json]
+keep_files: [assets]
