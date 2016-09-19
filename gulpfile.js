@@ -76,7 +76,7 @@ gulp.task('scss', function() {
 		.pipe($.autoprefixer({
 			browsers: COMPATIBILITY
 		}))
-    // .pipe($.if(DEPLOY, $.cssnano()))
+    .pipe($.if(DEPLOY, $.cssnano()))
 		.pipe($.sourcemaps.write('./'))
 		.pipe(gulp.dest(PATH.dist.css))
 		.pipe(browserSync.stream({ // Inject Styles
@@ -112,6 +112,11 @@ gulp.task('jekyll', function (gulpCallBack){
  * Reloading Tasks
  */
 
+// BrowserSync
+gulp.task('browserSyncReload', function(done) {
+  browserSync.reload();
+  done();
+});
 // SCSS
 gulp.task('scssReload', function(cb) {
   sequence(
@@ -126,6 +131,7 @@ gulp.task('scriptsReload', function(cb) {
   sequence(
     'scripts',
     'jekyll',
+    'browserSyncReload',
     cb
   );
 });
@@ -135,6 +141,16 @@ gulp.task('imageReload', function(cb) {
   sequence(
     'images',
     'jekyll',
+    'browserSyncReload',
+    cb
+  );
+});
+
+// Jekyll
+gulp.task('jekyllReload', function(cb) {
+  sequence(
+    'jekyll',
+    'browserSyncReload',
     cb
   );
 });
@@ -144,13 +160,13 @@ gulp.task('imageReload', function(cb) {
  */
 gulp.task('watch', function() {
   // Watch SCSS
-  gulp.watch(PATH.src.scss + '/**/*.scss', ['scssReload']);
+  gulp.watch(PATH.src.scss + '/**/*.scss', ['scss']);
   // Watch JS
-  gulp.watch(PATH.src.js + '/**/*.js', ['scriptsReload']).on('change', browserSync.reload);
+  gulp.watch(PATH.src.js + '/**/*.js', ['scriptsReload']);
   // Watch HTML
-  gulp.watch(['_includes/*', '_layouts/*', '_posts/*'], ['jekyll']).on('change', browserSync.reload);
+  gulp.watch(['_includes/*', '_layouts/*', '_posts/*'], ['jekyllReload']);
   // Watch Images
-  gulp.watch(PATH.src.imgs + '/**/*', ['imagesReload']).on('change', browserSync.reload);
+  gulp.watch(PATH.src.imgs + '/**/*', ['imagesReload']);
 
 });
 
